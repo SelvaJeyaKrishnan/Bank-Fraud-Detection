@@ -3,15 +3,12 @@ import Sidebar from '@/components/Sidebar'
 import StatusCard from '@/components/StatusCard'
 import RiskScore from '@/components/RiskScore'
 import FindingCard from '@/components/FindingCard'
+import UploadPanel from '@/components/UploadPanel'
 import { useDispatch, useSelector } from 'react-redux'
 import { RootState, AppDispatch } from '@/store'
 import { uploadTransactions, analyzeHistory, getReport } from '@/services/api'
 
-interface DashboardProps {
-  match: { reportId: string }
-}
-
-export default function Dashboard({ match }: DashboardProps) {
+export default function Dashboard() {
   const dispatch = useDispatch()
   const [reportId, setReportId] = useState<string>('')
   const [status, setStatus] = useState<'no_activity' | 'investigation' | 'pending'>('pending')
@@ -25,10 +22,10 @@ export default function Dashboard({ match }: DashboardProps) {
     const loadReport = async () => {
       setLoading(true)
       try {
-        const response = await fetch(`/api/report/${match.reportId}`)
+        const response = await fetch('/api/report/latest')
         const data = await response.json()
         
-        setReportId(data.report_id || match.reportId)
+        setReportId(data.report_id || '')
         setStatus(data.overall_finding === '⚠️ Activity Requiring Investigation' ? 'investigation' : 'no_activity')
         setRiskScore(data.risk_score || 0)
         setFindings(data.investigation_findings || [])
@@ -40,10 +37,8 @@ export default function Dashboard({ match }: DashboardProps) {
       }
     }
     
-    if (match.reportId) {
-      loadReport()
-    }
-  }, [match.reportId, dispatch])
+    loadReport()
+  }, [dispatch])
 
   // Upload transactions
   const handleUpload = async (file: File) => {

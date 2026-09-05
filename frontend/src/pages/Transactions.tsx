@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from 'react'
+import { useSelector } from 'react-redux'
 import Sidebar from '@/components/Sidebar'
 import TransactionTable from '@/components/TransactionTable'
+import { RootState } from '@/store'
 
 interface Transaction {
   transaction_id: string
@@ -17,8 +19,7 @@ export default function Transactions() {
   const [filteredTransactions, setFilteredTransactions] = useState<Transaction[]>([])
   const [searchTerm, setSearchTerm] = useState('')
   const [selectedTxn, setSelectedTxn] = useState<Transaction | null>(null)
-  const dispatch = useDispatch()
-  const { transactions: storedTransactions } = useSelector((state: RootState) => state)
+  useSelector((state: RootState) => state.transactions)
 
   // Load transactions from backend or store
   useEffect(() => {
@@ -36,7 +37,7 @@ export default function Transactions() {
     loadTransactions()
   }, [])
 
-  const handleSearch = (e: React.ChangeEvent) => {
+  const handleSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
     const term = e.target.value.toLowerCase()
     setSearchTerm(term)
     

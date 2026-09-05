@@ -1,20 +1,12 @@
 import { configureStore } from '@reduxjs/toolkit'
-import transactionReducer from '../app/redux/transactionSlice'
-import behaviorReducer from '../app/redux/behaviorSlice'
-import riskReducer from '../app/redux/riskSlice'
 
 export const store = configureStore({
   reducer: {
-    transactions: transactionReducer,
-    customerBehavior: behaviorReducer,
-    riskAnalysis: riskReducer,
+    transactions: (state: unknown[] = [], _action) => state,
+    customerBehavior: (state: Record<string, unknown> = {}, _action) => state,
+    riskAnalysis: (state: Record<string, unknown> = {}, _action) => state,
   },
-  middleware: (getDefaultMiddleware) =>
-    getDefaultMiddleware({
-      serializableCheck: false,
-    }),
 })
 
-export const persistor = persistStore(store)
-export type RootState = ReturnType<store.getState>
+export type RootState = ReturnType<typeof store.getState>
 export type AppDispatch = typeof store.dispatch

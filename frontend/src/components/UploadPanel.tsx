@@ -21,8 +21,8 @@ const UploadPanel: React.FC<UploadPanelProps> = ({ onUpload }) => {
     <div className="bg-[#12121a] rounded-2xl border border-[#1e1e2a] p-6 max-w-md">
       <h3 className="text-lg font-medium mb-4">Upload Transaction History</h3>
       
-      <div className="border-2 dashed border-[#1e1e2a] rounded-xl p-12 text-center mb-6 cursor-pointer hover:border-[#00d4aa] transition-colors"
-          onClick="document.getElementById('file-input').click()">
+        <div className="border-2 dashed border-[#1e1e2a] rounded-xl p-12 text-center mb-6 cursor-pointer hover:border-[#00d4aa] transition-colors"
+          onClick={() => document.getElementById('file-input')?.click()}>
         <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
           <path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/>
           <polyline points="17 3 21 3 21 7"/>
